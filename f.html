@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VerityAI — The Sovereign Quant Terminal for Indian Equities</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #030508;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 245, 212, 0.04) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.04) 0px, transparent 50%);
+    }
+    .font-mono {
+      font-family: 'Fira Code', monospace;
+    }
+    .gradient-border {
+      position: relative;
+    }
+    .gradient-border::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(to bottom, rgba(0, 245, 212, 0.25), rgba(124, 58, 237, 0.08));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 40px -10px rgba(0, 245, 212, 0.35);
+    }
+    .glow-purple {
+      box-shadow: 0 0 40px -10px rgba(124, 58, 237, 0.25);
+    }
+    /* Infinite scroll marquee animation */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      animation: marquee 35s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+    /* Custom Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030508;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 99px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#030508',
+              card: '#080c14',
+              panel: '#0e1420',
+              border: '#162235',
+              cyan: '#00f5d4',
+              purple: '#7c3aed',
+              darker: '#010204'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="text-slate-300 overflow-x-hidden selection:bg-brand-cyan/20 selection:text-brand-cyan">
+
+  <!-- TOP LIVE TICKER TAPE -->
+  <div class="w-full bg-brand-darker border-b border-brand-border/40 py-2 overflow-hidden font-mono text-[10px] tracking-widest relative z-50">
+    <div class="max-w-[2000px] mx-auto flex items-center relative">
+      <div id="tickerTape" class="flex whitespace-nowrap gap-16 items-center animate-marquee">
+        <!-- Generated Dynamically by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <nav class="sticky top-0 bg-brand-bg/60 backdrop-blur-xl border-b border-brand-border/30 z-40 px-6 py-4 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-brand-cyan/10 rounded-xl border border-brand-cyan/30 flex items-center justify-center">
+          <i data-lucide="terminal" class="w-5 h-5 text-brand-cyan"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-mono font-bold text-base text-slate-100 tracking-wider">VERITY AI</span>
+          <span class="font-mono text-[9px] text-brand-cyan tracking-widest uppercase -mt-1">Sovereign Quant Engine</span>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="hidden lg:flex items-center gap-8 text-[11px] font-mono tracking-widest text-slate-400">
+        <a href="#features" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5"><span class="text-[9px] text-slate-600">01.</span> SPECIFICATION</a>
+        <a href="#sandbox" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5"><span class="text-[9px] text-slate-600">02.</span> ARIA WORKSPACE</a>
+        <a href="#downloads" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5"><span class="text-[9px] text-slate-600">03.</span> DISTRIBUTION</a>
+        <a href="#pricing" class="hover:text-brand-cyan transition-colors flex items-center gap-1.5"><span class="text-[9px] text-slate-600">04.</span> SUBSCRIPTIONS</a>
+      </div>
+
+      <!-- Quick Action CTA -->
+      <div class="flex items-center gap-4">
+        <a href="#downloads" class="hidden sm:inline-flex px-4 py-2 border border-brand-border hover:border-brand-cyan/40 bg-brand-card hover:bg-brand-panel text-slate-100 font-mono text-[10px] tracking-wider rounded-lg transition-all">
+          GET LATEST BUILD
+        </a>
+        <a href="#sandbox" class="px-4 py-2 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker hover:brightness-110 font-bold rounded-lg text-xs tracking-wider transition-all shadow-md shadow-brand-cyan/10">
+          LAUNCH PREVIEW
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="relative min-h-[95vh] flex items-center justify-center px-6 overflow-hidden py-16">
+    <!-- Grid Overlay Background -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
+    
+    <!-- Ambient glowing light sources -->
+    <div class="absolute top-1/4 left-1/3 -translate-x-1/2 w-[500px] h-[500px] bg-brand-cyan/5 rounded-full blur-[140px] pointer-events-none animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-brand-purple/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full">
+      <!-- Left Column: Premium Pitch Copy -->
+      <div class="lg:col-span-6 flex flex-col items-start gap-8 text-left">
+        <div class="flex items-center gap-2 px-3 py-1 bg-brand-cyan/5 border border-brand-cyan/20 rounded-full text-[10px] font-mono text-brand-cyan font-bold tracking-widest">
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-cyan animate-ping"></span>
+          <span>TAURI DESKTOP ENGINE v2.0-BETA</span>
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-100 leading-[1.1]">
+          Sovereign Algorithmic <span class="bg-gradient-to-r from-brand-cyan via-teal-300 to-brand-purple bg-clip-text text-transparent">Alpha Terminal</span> for Indian Retail.
+        </h1>
+        
+        <p class="text-sm sm:text-base text-slate-400 max-w-xl leading-relaxed">
+          Skip late channels and opaque advice rooms. Verity is a production-grade native desktop client running a pre-computed 91-feature machine learning ensemble, instant programmatic broker webhooks, and conversational AI resolving mathematical structure.
+        </p>
+
+        <!-- OS Targeted Action Hub -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+          <a href="https://github.com/Devsharma431/Verity-land/releases/download/v1.2.0/VerityAI_1.2.0_x64_en-US.msi" download="VerityAI_1.2.0_x64_en-US.msi" id="primaryDownloadBtn" class="glow-cyan px-8 py-4 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-extrabold rounded-xl text-xs tracking-widest flex items-center justify-center gap-3 transition-all hover:-translate-y-0.5">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span id="primaryDownloadText">DOWNLOAD FOR WINDOWS (x64)</span>
+          </a>
+          
+          <a href="#downloads" class="px-6 py-4 bg-brand-card hover:bg-brand-panel border border-brand-border/80 hover:border-slate-700 rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-2 transition-all">
+            <span>DISTRIBUTION MATRIX</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-brand-cyan"></i>
+          </a>
+        </div>
+
+        <!-- Metric Stat Banner -->
+        <div class="grid grid-cols-3 gap-8 pt-8 border-t border-brand-border/40 w-full max-w-xl font-mono">
+          <div>
+            <div class="text-2xl font-bold text-slate-100">68.0%</div>
+            <div class="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Model Accuracy</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-slate-100">6.33x</div>
+            <div class="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Profit Factor</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-brand-cyan">311+</div>
+            <div class="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">NSE Equities</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Live Quant Charting Engine Teaser -->
+      <div class="lg:col-span-6 flex justify-center w-full relative">
+        <div class="w-full bg-brand-card/90 border border-brand-border rounded-2xl overflow-hidden shadow-2xl relative gradient-border">
+          
+          <!-- Simulated Window Controls -->
+          <div class="px-4 py-3 bg-brand-darker/80 border-b border-brand-border/60 flex items-center justify-between text-[11px] font-mono">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+            </div>
+            <span class="text-slate-500 tracking-wider">verity_predict_grid.exe</span>
+            <div class="flex items-center gap-1.5 px-2 py-0.5 bg-brand-cyan/10 border border-brand-cyan/25 rounded text-[9px] text-brand-cyan">
+              <span class="w-1 h-1 rounded-full bg-brand-cyan animate-pulse"></span>
+              <span>LIVE RECOGNITION</span>
+            </div>
+          </div>
+
+          <!-- Live Chart Panel with Dynamic Controls -->
+          <div class="p-6 space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <select id="heroTickerSelect" onchange="updateHeroChart(this.value)" class="bg-brand-panel border border-brand-border text-slate-100 font-mono text-xs px-3 py-1.5 rounded-lg focus:outline-none focus:border-brand-cyan transition-all">
+                  <option value="RELIANCE">RELIANCE.NS (Reliance Industries)</option>
+                  <option value="TCS">TCS.NS (Tata Consultancy Services)</option>
+                  <option value="INFY">INFY.NS (Infosys Limited)</option>
+                </select>
+                <div class="text-[10px] text-slate-500 font-mono mt-1">Select an asset to test recomputation matrix</div>
+              </div>
+              
+              <div class="text-right">
+                <span id="heroSignalBadge" class="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-lg text-[10px] font-mono font-extrabold tracking-wider">
+                  BUY DIRECTIONAL
+                </span>
+                <div class="text-[10px] text-slate-500 font-mono mt-1">Confidence: <span id="heroConfidence" class="text-slate-300 font-bold">78.5%</span></div>
+              </div>
+            </div>
+
+            <!-- Simulated SVG Canvas -->
+            <div class="bg-brand-darker/50 border border-brand-border/40 rounded-xl p-4 relative h-48 flex flex-col justify-between">
+              <!-- Grid lines -->
+              <div class="absolute inset-x-0 top-1/4 border-b border-brand-border/20 pointer-events-none"></div>
+              <div class="absolute inset-x-0 top-2/4 border-b border-brand-border/20 pointer-events-none"></div>
+              <div class="absolute inset-x-0 top-3/4 border-b border-brand-border/20 pointer-events-none"></div>
+
+              <!-- Primary Candle Plot wrapper -->
+              <div class="flex-1 w-full relative">
+                <svg id="heroCandleSvg" class="w-full h-full" viewBox="0 0 600 120" preserveAspectRatio="none">
+                  <!-- Generated Dynamically by JS -->
+                </svg>
+              </div>
+
+              <!-- Indicator Pane -->
+              <div class="h-10 border-t border-brand-border/30 pt-1">
+                <svg id="heroIndicatorSvg" class="w-full h-full" viewBox="0 0 600 30" preserveAspectRatio="none">
+                  <!-- Generated Dynamically by JS -->
+                </svg>
+              </div>
+            </div>
+
+            <!-- Precomputed values grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[10px] bg-brand-darker/60 p-3.5 rounded-xl border border-brand-border/50">
+              <div class="border-r border-brand-border/40 pr-2">RSI (14): <span id="heroMetricRsi" class="text-slate-100 font-bold">62.45</span></div>
+              <div class="border-r border-brand-border/40 px-2">MACD HIST: <span id="heroMetricMacd" class="text-emerald-400 font-bold">+12.4</span></div>
+              <div class="border-r border-brand-border/40 px-2">ALTMAN Z: <span id="heroMetricAltman" class="text-brand-cyan font-bold">4.23 (Safe)</span></div>
+              <div class="pl-2">VPIN TOX: <span id="heroMetricVpin" class="text-slate-100 font-bold">0.22</span></div>
+            </div>
+
+            <!-- Live AI Reasoning Block -->
+            <div class="bg-brand-panel/60 p-4 rounded-xl border border-brand-border/60 relative">
+              <div class="flex items-center gap-2 text-brand-cyan font-mono font-bold text-[10px] mb-1.5 uppercase tracking-wider">
+                <i data-lucide="cpu" class="w-4 h-4 text-brand-cyan animate-pulse"></i>
+                <span>ARIA Live Structural Parsing</span>
+              </div>
+              <p id="heroAriaReasoning" class="text-[11px] leading-relaxed text-slate-300 font-mono">
+                "Price action bounce confirms dynamic liquidity pool sweeps at current levels. Option chain models maintain positive skew patterns with systemic volume absorption."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION (BENTO GRID) -->
+  <section id="features" class="py-28 bg-brand-darker/60 border-t border-b border-brand-border/40 px-6 relative">
+    <div class="max-w-7xl mx-auto space-y-16">
+      
+      <!-- Section Headers -->
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <h2 class="text-[10px] font-mono font-bold tracking-[0.25em] text-brand-cyan uppercase">SYSTEM SPECIFICATION</h2>
+        <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Structural factors. Unified matrix.</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Verity integrates parallel pipeline ingestion algorithms, generating high-fidelity structural mappings of individual asset postures.
+        </p>
+      </div>
+
+      <!-- Bento Grid Blocks -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Technical Ingestion -->
+        <div class="bg-brand-card hover:bg-brand-panel border border-brand-border/60 hover:border-brand-border p-8 rounded-2xl flex flex-col gap-5 transition-all duration-300 group">
+          <div class="p-3.5 bg-brand-cyan/10 rounded-xl border border-brand-cyan/25 w-fit group-hover:scale-105 transition-all">
+            <i data-lucide="trending-up" class="w-5 h-5 text-brand-cyan"></i>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-100">91-Feature Engine</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Processes 14 technical models mapped over multiple intervals, feeding into volatility metrics, Bollinger band corridors, and divergence vectors in parallel.
+            </p>
+          </div>
+        </div>
+
+        <!-- Microstructure -->
+        <div class="bg-brand-card hover:bg-brand-panel border border-brand-border/60 hover:border-brand-border p-8 rounded-2xl flex flex-col gap-5 transition-all duration-300 group">
+          <div class="p-3.5 bg-purple-500/10 rounded-xl border border-purple-500/25 w-fit group-hover:scale-105 transition-all">
+            <i data-lucide="database" class="w-5 h-5 text-purple-400"></i>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-100">Kite &amp; Playwright Channels</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Ingests tick-level histories dynamically via automated web-socket connections, parsing active options distributions in real time with headless browser runners.
+            </p>
+          </div>
+        </div>
+
+        <!-- Solvency Risk Profiles -->
+        <div class="bg-brand-card hover:bg-brand-panel border border-brand-border/60 hover:border-brand-border p-8 rounded-2xl flex flex-col gap-5 transition-all duration-300 group">
+          <div class="p-3.5 bg-emerald-500/10 rounded-xl border border-emerald-500/25 w-fit group-hover:scale-105 transition-all">
+            <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-100">Altman Z-Score Matrix</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Performs programmatic solvency evaluations using updated company balances and local disclosures, screening structural distress configurations out of your matrix.
+            </p>
+          </div>
+        </div>
+
+        <!-- Transformer Sentiments -->
+        <div class="bg-brand-card hover:bg-brand-panel border border-brand-border/60 hover:border-brand-border p-8 rounded-2xl flex flex-col gap-5 transition-all duration-300 group">
+          <div class="p-3.5 bg-blue-500/10 rounded-xl border border-blue-500/25 w-fit group-hover:scale-105 transition-all">
+            <i data-lucide="message-square" class="w-5 h-5 text-blue-400"></i>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-100">FinBERT Sentiment Mapping</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Bypasses simple key phrase matching, utilizing financial NLP transformer models to digest corporate notes, promoter filings, and macroeconomic updates.
+            </p>
+          </div>
+        </div>
+
+        <!-- Unified Broker Integration -->
+        <div class="bg-brand-card hover:bg-brand-panel border border-brand-border/60 hover:border-brand-border p-8 rounded-2xl flex flex-col gap-5 transition-all duration-300 group">
+          <div class="p-3.5 bg-amber-500/10 rounded-xl border border-amber-500/25 w-fit group-hover:scale-105 transition-all">
+            <i data-lucide="git-merge" class="w-5 h-5 text-amber-400"></i>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-100">Multi-Broker Action Webhooks</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Provides direct order execution interfaces with leading retail channels (Zerodha, AngelOne, Groww, Upstox) complete with integrated capital thresholds.
+            </p>
+          </div>
+        </div>
+
+        <!-- Autonomous AI Agents -->
+        <div class="bg-brand-card hover:bg-brand-panel border border-brand-border/60 hover:border-brand-border p-8 rounded-2xl flex flex-col gap-5 transition-all duration-300 group">
+          <div class="p-3.5 bg-pink-500/10 rounded-xl border border-pink-500/25 w-fit group-hover:scale-105 transition-all">
+            <i data-lucide="cpu" class="w-5 h-5 text-pink-400"></i>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-100">ARIA Agent Pods</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              An embedded, low-latency conversational agent designed to instantly write backtest queries, analyze active charts, or prepare compliant webhook structures.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ARIA PLAYGROUND PREVIEW (SANDBOX) -->
+  <section id="sandbox" class="py-28 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    
+    <!-- Left Hand Selection Copy -->
+    <div class="lg:col-span-5 space-y-6 flex flex-col items-start text-left">
+      <div class="px-3 py-1 bg-brand-cyan/5 border border-brand-cyan/25 rounded-full text-[10px] font-mono text-brand-cyan font-bold tracking-widest">
+        <span>INTERACTIVE PLAYGROUND (ARIA IS IN V2 MODEL OF THIS APP)</span>
+      </div>
+      <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-100 leading-tight">Interact with ARIA's three-tier model interface.</h3>
+      <p class="text-sm text-slate-400 leading-relaxed">
+        Select a preset operations prompt below to test how ARIA instantly translates quantitative metrics, option charts, and solvency scores into concrete descriptions and execution code blocks.
+      </p>
+
+      <!-- Sandbox Triggers -->
+      <div class="flex flex-col gap-3 w-full font-mono text-xs">
+        <button onclick="triggerSandboxDemo('ANALYSE')" class="w-full flex items-center justify-between p-4 bg-brand-card hover:bg-brand-panel border border-brand-border hover:border-brand-cyan/40 hover:text-brand-cyan rounded-xl transition-all">
+          <span>01. ANALYSE INDICATOR MATRIX</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-brand-cyan"></i>
+        </button>
+        <button onclick="triggerSandboxDemo('EXPLAIN')" class="w-full flex items-center justify-between p-4 bg-brand-card hover:bg-brand-panel border border-brand-border hover:border-brand-cyan/40 hover:text-brand-cyan rounded-xl transition-all">
+          <span>02. EXPLAIN THE ML MODEL LOGIC</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-brand-cyan"></i>
+        </button>
+        <button onclick="triggerSandboxDemo('SHOW')" class="w-full flex items-center justify-between p-4 bg-brand-card hover:bg-brand-panel border border-brand-border hover:border-brand-cyan/40 hover:text-brand-cyan rounded-xl transition-all">
+          <span>03. SHOW WEBHOOK AUTOMATION SCRIPT</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-brand-cyan"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Hand Interactive Terminal Workspace -->
+    <div class="lg:col-span-7 w-full h-[520px] bg-brand-card border border-brand-border rounded-2xl overflow-hidden shadow-2xl flex flex-col gradient-border">
+      
+      <!-- Workspace Header -->
+      <div class="px-4 py-3.5 bg-brand-darker/90 border-b border-brand-border/60 flex items-center justify-between font-mono text-xs">
+        <div class="flex items-center gap-2">
+          <i data-lucide="cpu" class="w-4 h-4 text-brand-cyan animate-pulse"></i>
+          <span class="font-bold text-slate-100 tracking-wider">ARIA AGENT WORKSPACE v2.0</span>
+        </div>
+        <div class="flex items-center gap-2 text-emerald-400 font-bold text-[10px]">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>ONLINE SESSION</span>
+        </div>
+      </div>
+
+      <!-- Live Chat Stream -->
+      <div id="sandboxWindow" class="flex-1 overflow-y-auto p-5 space-y-4 font-mono text-xs text-slate-300">
+        <div class="flex flex-col space-y-1.5 max-w-[85%]">
+          <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">ARIA</span>
+          <div class="p-4 rounded-xl leading-relaxed bg-brand-panel/50 border border-brand-border/40 text-slate-300">
+            Secure sandbox workspace initialized. Connecting to quant pipeline context for **RELIANCE.NS**...<br/><br/>
+            Select an operational command prompt from the sidebar to inspect real-time evaluation processes.
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer Command input -->
+      <div class="p-4 bg-brand-darker/95 border-t border-brand-border/60 flex items-center gap-2 font-mono text-[10px] text-slate-500">
+        <span class="text-brand-cyan font-bold">&gt;</span>
+        <span id="sandboxPromptPlaceholder">Select an analytical context trigger on the left to inspect logs...</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PLATFORM DOWNLOAD CENTER -->
+  <section id="downloads" class="py-28 bg-brand-darker/60 border-t border-b border-brand-border/40 px-6">
+    <div class="max-w-7xl mx-auto space-y-16">
+      
+      <!-- Section Headers -->
+      <div class="text-center max-w-2xl mx-auto space-y-4">
+        <h2 class="text-[10px] font-mono font-bold tracking-[0.25em] text-brand-cyan uppercase">DISTRIBUTION CENTER</h2>
+        <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Download Native Desktop Builds</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Run Verity locally on your preferred system architecture. Desktop builds run within secure Tauri shells, incorporating localized credential isolation and automatic distribution handshakes.
+        </p>
+      </div>
+
+      <!-- Package Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs text-slate-400 max-w-5xl mx-auto">
+        
+        <!-- Windows build -->
+        <div class="bg-brand-card/80 border border-brand-border/60 hover:border-slate-700 p-8 rounded-2xl flex flex-col justify-between gap-8 transition-all duration-300", width ="100%">
+          <div class="space-y-4">
+            <div class="p-3 bg-brand-cyan/5 rounded-xl border border-brand-cyan/20 w-fit">
+              <i data-lucide="terminal" class="w-6 h-6 text-brand-cyan"></i>
+            </div>
+            <h4 class="text-base font-bold text-slate-100">Windows MSI</h4>
+            <p class="text-[11px] leading-relaxed text-slate-400">
+              Supports Windows 10 &amp; 11 (x64 architectures). Authenticated installer incorporating secure certificate registrations.
+            </p>
+          </div>
+          <a href="https://github.com/Devsharma431/Verity-land/releases/download/v1.2.0/VerityAI_1.2.0_x64_en-US.msi" download="VerityAI_1.2.0_x64_en-US.msi" class="w-full py-3.5 bg-brand-panel hover:bg-brand-panel/80 hover:text-brand-cyan border border-brand-border hover:border-brand-cyan/40 font-bold rounded-xl transition-all text-center">
+            Download .msi bundle
+          </a>
+        </div>
+
+        
+
+       
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIPTION MATRIX -->
+  <section id="pricing" class="py-28 px-6 max-w-7xl mx-auto space-y-16">
+    
+    <!-- Section Headers with Dynamic toggle -->
+    <div class="text-center max-w-2xl mx-auto space-y-4">
+      <h2 class="text-[10px] font-mono font-bold tracking-[0.25em] text-brand-cyan uppercase">SUBSCRIPTION MATRIX</h2>
+      <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Select analytical bandwidth</h3>
+      <p class="text-sm text-slate-400 leading-relaxed">
+        Unlock evaluation limits with our free tier, or scale structural ingestion with our high-frequency analytical integrations.
+      </p>
+
+      <!-- Custom Toggle Switched Container -->
+      <div class="flex items-center justify-center gap-4 pt-6 font-mono text-[11px] tracking-wider font-bold">
+        <span id="labelMonthly" class="text-brand-cyan">MONTHLY BASIS</span>
+        <button onclick="togglePricingModel()" class="w-12 h-6 bg-brand-cyan/15 border border-brand-cyan/35 rounded-full relative p-0.5 transition-all">
+          <div id="pricingToggleKnob" class="h-4.5 w-4.5 bg-brand-cyan rounded-full transition-all transform translate-x-0"></div>
+        </button>
+        <span id="labelYearly" class="text-slate-500">YEARLY BASICS (20% REDUCTION)</span>
+      </div>
+    </div>
+
+    <!-- Pricing Columns -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      
+      <!-- Free Tier -->
+      <div class="bg-brand-card/60 border border-brand-border/60 hover:border-slate-700 p-8 rounded-2xl flex flex-col justify-between gap-8 transition-all duration-300 relative">
+        <div class="space-y-4">
+          <div class="text-slate-100 font-bold text-base font-mono">Free Evaluation</div>
+          <div class="text-4xl font-extrabold text-slate-100">₹0</div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Perfect for evaluating technical structures and prediction accuracy across selected local symbols.
+          </p>
+          <ul class="space-y-3 text-[11px] font-semibold text-slate-400 border-t border-brand-border/40 pt-5">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> 5 model queries per day</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> Standard technical indicators</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> 3 watchlists configurations</li>
+          </ul>
+        </div>
+        <button onclick="showAgreement('Free Evaluation Build')" class="w-full py-3 bg-brand-panel hover:bg-slate-800/50 border border-brand-border font-mono font-bold rounded-xl text-xs transition-all">
+          GET EVAL BUILD
+        </button>
+      </div>
+
+      <!-- Pro Ingestion -->
+      <div class="bg-brand-card border border-brand-cyan/40 p-8 rounded-2xl flex flex-col justify-between gap-8 transition-all duration-300 relative glow-cyan">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-cyan text-brand-darker rounded-full text-[9px] font-mono font-extrabold tracking-widest uppercase shadow">
+          POPULAR CONFIG
+        </div>
+        <div class="space-y-4">
+          <div class="text-slate-100 font-bold text-base font-mono">Pro Trader</div>
+          <div class="flex items-baseline gap-1 font-mono">
+            <span id="priceValPro" class="text-4xl font-extrabold text-slate-100">₹999</span>
+            <span id="periodLabelPro" class="text-[10px] text-slate-500 font-bold">/MO</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Complete activation of our 91-feature machine learning model framework, options flows, and automated AI analysis.
+          </p>
+          <ul class="space-y-3 text-[11px] font-semibold text-slate-400 border-t border-brand-border/40 pt-5">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> 91 feature computing pipeline</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> FinBERT sentiment matrices</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> Altman Z solvency screens</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> Ingestion queries without thresholds</li>
+          </ul>
+        </div>
+        <button onclick="showAgreement('Pro Trader License')" class="glow-cyan w-full py-3.5 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-mono font-extrabold rounded-xl text-xs transition-all tracking-wider">
+          UPGRADE CLIENT
+        </button>
+      </div>
+
+      <!-- Enterprise Quant -->
+      <div class="bg-brand-card/60 border border-brand-border/60 hover:border-slate-700 p-8 rounded-2xl flex flex-col justify-between gap-8 transition-all duration-300 relative">
+        <div class="space-y-4">
+          <div class="text-slate-100 font-bold text-base font-mono">Enterprise Quant</div>
+          <div class="flex items-baseline gap-1 font-mono">
+            <span id="priceValEnterprise" class="text-4xl font-extrabold text-slate-100">₹2,499</span>
+            <span id="periodLabelEnterprise" class="text-[10px] text-slate-500 font-bold">/MO</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Enterprise programmatic architecture, sub-second webhook pipelines, multi-broker authorization systems, and raw REST access.
+          </p>
+          <ul class="space-y-3 text-[11px] font-semibold text-slate-400 border-t border-brand-border/40 pt-5">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> All analytical scopes in Pro</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> Direct REST API access endpoints</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> Multiple broker channels</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> Dedicated system instance pipelines</li>
+          </ul>
+        </div>
+        <button onclick="showAgreement('Enterprise Quant Package')" class="w-full py-3 bg-brand-panel hover:bg-slate-800/50 border border-brand-border font-mono font-bold rounded-xl text-xs transition-all">
+          CONTACT ENGINE
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQS & COMPLIANCE FOOTER -->
+  <footer id="compliance" class="bg-brand-darker border-t border-brand-border/40 py-20 px-6 font-mono text-xs text-slate-500 leading-relaxed">
+    <div class="max-w-4xl mx-auto space-y-10">
+      
+      <!-- FAQS Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-brand-border/40 pb-10 text-left">
+        <div class="space-y-2">
+          <h5 class="font-bold text-slate-400 uppercase text-[10px] tracking-widest">Is VerityAI registered with SEBI?</h5>
+          <p class="text-slate-500 text-[11px] leading-relaxed">
+            No. VerityAI operates strictly as a data intelligence software distribution and engineering platform. All calculated metric factors, divergence parameters, and ensemble valuations are provided as statistical research components. We do not provide asset advise.
+          </p>
+        </div>
+        <div class="space-y-2">
+          <h5 class="font-bold text-slate-400 uppercase text-[10px] tracking-widest">Are my broker credentials secure?</h5>
+          <p class="text-slate-500 text-[11px] leading-relaxed">
+            Yes. All authorization API keys, options keys, and authorization details are contained strictly within isolated file layouts on your local machine. No credentials are sent to our central servers.
+          </p>
+        </div>
+      </div>
+
+      <!-- Legal Footnote -->
+      <div class="text-center space-y-6">
+        <p class="text-[10px] leading-relaxed">
+          RISK WARNING &amp; MANDATORY COMPLIANCE: Equities and options evaluations inside the Indian capital markets are characterized by distinct investment profiles. Past backtested models and analytical valuations are not reliable guides of subsequent outcomes. Retail traders are urged to manage distinct thresholds and acquire certified financial consultancy when executing setups.
+        </p>
+        <p class="text-[9px] text-slate-600 tracking-wider">
+          © 2026 Verity Quantitative Systems Private Limited. Built with high performance. Automatic platform distributions active.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PRIVACY & TERMS AGREEMENT MODAL -->
+  <div id="agreementModal" class="fixed inset-0 z-50 bg-brand-bg/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl gradient-border">
+      
+      <!-- Header -->
+      <div class="px-6 py-4 border-b border-brand-border/60 flex items-center gap-3 shrink-0">
+        <div class="p-2 bg-brand-cyan/10 rounded-xl border border-brand-cyan/30">
+          <i data-lucide="file-text" class="w-5 h-5 text-brand-cyan"></i>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-slate-100 font-mono tracking-wider">Privacy Policy & Terms of Service</h3>
+          <p class="text-[10px] text-slate-500 font-mono">Please review and accept before downloading</p>
+        </div>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="flex-1 overflow-y-auto px-6 py-4 font-mono text-[11px] text-slate-400 leading-relaxed space-y-6">
+        
+        <div>
+          <h4 class="text-brand-cyan font-bold text-xs tracking-wider mb-2">Verity AI Privacy Policy</h4>
+          <p class="text-slate-500">Effective Date: 3 July 2026</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">1. Introduction</h5>
+          <p>Welcome to Verity AI ("Verity", "we", "our", or "us"). This Privacy Policy explains how we collect, use, store, and protect your information when you use the Verity desktop application, website, and related services. By using Verity, you agree to this Privacy Policy.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">2. Information We Collect</h5>
+          <p><span class="text-slate-300">Account Information:</span> When creating an account we may collect: Name (if provided), Email address, Authentication information, User ID. We do not collect your app data — everything stays in local because we respect your privacy and data.</p>
+          <p class="mt-1"><span class="text-slate-300">Usage Data:</span> To provide our services we may collect: Watchlists, Prediction history, Portfolio preferences, App settings, Usage analytics, Error logs, Crash reports.</p>
+          <p class="mt-1"><span class="text-slate-300">Device Information:</span> We may collect: Operating System, App Version, Device Identifier, Diagnostic Information.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">3. Information We Do NOT Collect</h5>
+          <p>Unless explicitly required, Verity does not collect: Banking passwords, Brokerage passwords, Payment card information, Government-issued identification, Personal documents.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">4. How We Use Your Information</h5>
+          <p>Your information is used to: Authenticate your account, Improve prediction accuracy, Synchronize your preferences, Provide customer support, Improve application stability, Detect abuse and fraud, Deliver product updates.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">5. AI Predictions</h5>
+          <p>Verity uses proprietary AI models to generate stock market predictions. Predictions are generated using: Historical market data, Technical indicators, Fundamental analysis, News sentiment, Market regime analysis. Predictions are probabilistic estimates and are not guarantees.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">6. Local Processing</h5>
+          <p>Many Verity AI calculations are performed locally on your device. Some services, including authentication and account synchronization, require secure cloud infrastructure.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">7. Third-Party Services</h5>
+          <p>Verity may use trusted third-party providers including: Supabase, Vercel, Google Authentication, Financial data providers, News providers. These providers have their own privacy policies.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">8. Data Security</h5>
+          <p>We implement reasonable technical and organizational measures to protect your data. However, no internet transmission or storage system is completely secure.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">9. Data Retention</h5>
+          <p>We retain account information while your account remains active. You may request deletion of your account and associated personal data, subject to legal and operational requirements.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">10. Children's Privacy</h5>
+          <p>Verity is not intended for individuals under the age of 18.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">11. Changes</h5>
+          <p>We may update this Privacy Policy from time to time. Continued use of Verity after changes constitutes acceptance of the revised policy.</p>
+        </div>
+
+        <div class="border-t border-brand-border/40 pt-4">
+          <h4 class="text-brand-cyan font-bold text-xs tracking-wider mb-2">Terms & Conditions</h4>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">1. Acceptance</h5>
+          <p>By creating an account, downloading, installing, or using Verity, you agree to these Terms and Conditions. If you do not agree, do not use the application.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">2. Beta Software</h5>
+          <p>Verity is currently released as a Beta product. The application may: contain bugs, experience downtime, change features, change pricing, receive frequent updates.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">3. No Investment Advice</h5>
+          <p>Verity is an AI-powered analytical platform. Nothing within Verity constitutes: investment advice, financial advice, portfolio management, brokerage services, research recommendations. All decisions remain solely your responsibility.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">4. No SEBI Registration</h5>
+          <p>Verity is not a SEBI-registered investment adviser, research analyst, or portfolio manager unless explicitly stated otherwise. Users should consult licensed financial professionals before making investment decisions.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">5. Risk Disclosure</h5>
+          <p>Investing in securities involves substantial risk. Past performance does not guarantee future results. AI predictions may be incorrect. You acknowledge that you assume full responsibility for all trading and investment decisions.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">6. User Responsibilities</h5>
+          <p>You agree to: provide accurate account information, maintain account security, keep your password confidential, use Verity lawfully, comply with applicable laws.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">7. Prohibited Uses</h5>
+          <p>You may not: reverse engineer the software, redistribute proprietary AI models, scrape application data, interfere with security systems, exploit vulnerabilities, use Verity for unlawful purposes.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">8. Intellectual Property</h5>
+          <p>All software, AI models, branding, source code, algorithms, user interface, and documentation remain the exclusive property of Verity AI unless otherwise stated. No ownership rights are transferred by using the application.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">9. Availability</h5>
+          <p>We do not guarantee uninterrupted service. Maintenance, updates, outages, or technical failures may occur.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">10. Limitation of Liability</h5>
+          <p>To the maximum extent permitted by law, Verity and its developers shall not be liable for: trading losses, investment losses, lost profits, indirect damages, data loss, business interruption. Your use of Verity is entirely at your own risk.</p>
+        </div>
+
+        <div>
+          <h5 class="text-slate-300 font-bold text-[11px] mb-1">11. Account Suspension</h5>
+          <p>We reserve the right to suspend or terminate accounts that: violate these Terms, abuse the platform, engage in fraudulent activity, compromise platform security.</p>
+        </div>
+      </div>
+
+      <!-- Footer with Agreement -->
+      <div class="px-6 py-4 border-t border-brand-border/60 shrink-0 space-y-3">
+        <label class="flex items-start gap-3 cursor-pointer group">
+          <input type="checkbox" id="agreeCheckbox" class="mt-0.5 w-4 h-4 rounded border-brand-border bg-brand-panel text-brand-cyan focus:ring-brand-cyan/30 focus:ring-offset-0 accent-brand-cyan cursor-pointer" />
+          <span class="text-[11px] text-slate-400 font-mono group-hover:text-slate-300 transition-colors">
+            I have read and agree to the <span class="text-brand-cyan">Privacy Policy</span> and <span class="text-brand-cyan">Terms & Conditions</span> of Verity AI.
+          </span>
+        </label>
+        <div class="flex gap-3">
+          <button onclick="closeAgreement()" class="flex-1 py-2.5 bg-brand-panel hover:bg-brand-panel/80 border border-brand-border text-slate-400 font-mono font-bold rounded-xl text-xs transition-all">
+            Cancel
+          </button>
+          <button id="agreeDownloadBtn" disabled onclick="proceedDownload()" class="flex-1 py-2.5 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-mono font-extrabold rounded-xl text-xs tracking-wider transition-all opacity-40 cursor-not-allowed">
+            Agree & Download
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DYNAMIC PROGRESS MODAL -->
+  <div id="downloadModal" class="fixed inset-0 z-50 bg-brand-bg/85 backdrop-blur-md hidden items-center justify-center p-6">
+    <div class="bg-brand-card border border-brand-border p-8 rounded-2xl w-full max-w-sm text-center font-mono text-xs space-y-5 shadow-2xl relative gradient-border">
+      
+      <!-- Visual status indicator -->
+      <div class="flex items-center gap-2.5 justify-center text-brand-cyan">
+        <i data-lucide="cpu" class="w-5 h-5 animate-spin"></i>
+        <span class="font-bold text-sm tracking-widest">VERITY BUILD ENVELOPE</span>
+      </div>
+
+      <p id="modalDownloadText" class="text-slate-300 leading-relaxed">
+        Establishing regional distribution pipeline context...
+      </p>
+
+      <!-- Progress bar -->
+      <div class="w-full bg-brand-panel h-2 rounded-full overflow-hidden border border-brand-border/40">
+        <div id="downloadProgressBar" class="bg-gradient-to-r from-brand-cyan to-teal-400 h-full rounded-full w-0 transition-all duration-300"></div>
+      </div>
+
+      <div class="flex justify-between text-[10px] text-slate-500 font-bold">
+        <span id="modalDownloadProgress">0% COMPLETE</span>
+        <span>v2.0-beta.bundle</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CONTROLLER SCRIPT -->
+  <script>
+    // 1. Live Ticker Tape Feed Models
+    const liveTickers = [
+      { id: "RELIANCE", val: "2452.45", chg: "+1.24%", isUp: true },
+      { id: "TCS", val: "3795.50", chg: "-0.85%", isUp: false },
+      { id: "INFY", val: "1450.15", chg: "+0.15%", isUp: true },
+      { id: "HDFCBANK", val: "1610.90", chg: "+0.85%", isUp: true },
+      { id: "ICICIBANK", val: "1124.00", chg: "-1.15%", isUp: false },
+      { id: "TATASTEEL", val: "164.50", chg: "+2.45%", isUp: true },
+      { id: "WIPRO", val: "482.10", chg: "-0.45%", isUp: false },
+      { id: "SUNPHARMA", val: "1542.00", chg: "+1.95%", isUp: true }
+    ];
+
+    function renderTickerFeed() {
+      const container = document.getElementById("tickerTape");
+      // Double structure loop to enable seamless looping marquee layout
+      const stream = [...liveTickers, ...liveTickers, ...liveTickers];
+      container.innerHTML = stream.map(el => `
+        <span class="flex items-center gap-2">
+          <span class="font-bold text-slate-100">${el.id}.NS</span>
+          <span class="text-slate-400">₹${el.val}</span>
+          <span class="${el.isUp ? 'text-emerald-400' : 'text-rose-500'} font-bold flex items-center">
+            ${el.isUp ? '▲' : '▼'} ${el.chg}
+          </span>
+        </span>
+      `).join(' ');
+    }
+
+    // 2. Local OS Architecture Detection
+    function identifyOS() {
+      const mainLabel = document.getElementById("primaryDownloadText");
+      const agent = navigator.userAgent.toLowerCase();
+
+      if (agent.indexOf("win") !== -1) {
+        mainLabel.textContent = "DOWNLOAD FOR WINDOWS (x64)";
+      } else {
+        mainLabel.textContent = "WINDOWS ONLY";
+      }
+    }
+
+    // 3. Simulated Installation Progress Handlers
+    function triggerDownloadSimulation() {
+      const label = document.getElementById("primaryDownloadText").textContent;
+      triggerSpecificDownloadSim(label);
+    }
+
+    function triggerSpecificDownloadSim(name) {
+      const modal = document.getElementById("downloadModal");
+      const text = document.getElementById("modalDownloadText");
+      const bar = document.getElementById("downloadProgressBar");
+      const percent = document.getElementById("modalDownloadProgress");
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      text.textContent = `Establishing connection for package: ${name}...`;
+
+      let progress = 0;
+      const pipelineInterval = setInterval(() => {
+        progress += Math.floor(Math.random() * 15) + 5;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(pipelineInterval);
+          text.textContent = "🚀 Build verified. Launching local execution envelopes.";
+          
+          setTimeout(() => {
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            bar.style.width = "0%";
+            percent.textContent = "0% COMPLETE";
+          }, 1500);
+        }
+        bar.style.width = `${progress}%`;
+        percent.textContent = `${progress}% COMPLETE`;
+      }, 150);
+    }
+
+    // 4. Simulated Interactive Hero Quant Charting Controls
+    const assetMatrix = {
+      RELIANCE: {
+        signal: "BUY DIRECTIONAL",
+        confidence: "78.5%",
+        rsi: "62.45",
+        macd: "+12.40",
+        altman: "4.23 (Safe)",
+        vpin: "0.22 (Low)",
+        reason: "Asset shows dynamic accumulation levels with sustained retail distribution volume. MACD curves indicate stable momentum transitions.",
+        bullish: true,
+        pattern: [
+          { o: 2410, h: 2430, l: 2405, c: 2425 },
+          { o: 2425, h: 2440, l: 2420, c: 2435 },
+          { o: 2435, h: 2438, l: 2418, c: 2422 },
+          { o: 2422, h: 2450, l: 2420, c: 2448 },
+          { o: 2448, h: 2465, l: 2445, c: 2460 }
+        ]
+      },
+      TCS: {
+        signal: "SELL LIQUIDITY",
+        confidence: "82.1%",
+        rsi: "28.15",
+        macd: "-31.80",
+        altman: "6.12 (Safe)",
+        vpin: "0.48 (Elevated)",
+        reason: "Severe option-chain resistance points encountered alongside negative sectoral capital movements. Avoid execution before support establishes.",
+        bullish: false,
+        pattern: [
+          { o: 3850, h: 3865, l: 3830, c: 3832 },
+          { o: 3832, h: 3840, l: 3810, c: 3815 },
+          { o: 3815, h: 3825, l: 3780, c: 3790 },
+          { o: 3790, h: 3810, l: 3785, c: 3802 },
+          { o: 3802, h: 3805, l: 3750, c: 3760 }
+        ]
+      },
+      INFY: {
+        signal: "NEUTRAL ACCUMULATION",
+        confidence: "54.2%",
+        rsi: "49.80",
+        macd: "+1.20",
+        altman: "3.91 (Safe)",
+        vpin: "0.15 (Minimal)",
+        reason: "Volume volatility compression in active channels. System indicates continued consolidation with balanced buyers and sellers.",
+        bullish: true,
+        pattern: [
+          { o: 1450, h: 1460, l: 1445, c: 1455 },
+          { o: 1455, h: 1458, l: 1442, c: 1448 },
+          { o: 1448, h: 1462, l: 1446, c: 1458 },
+          { o: 1458, h: 1460, l: 1450, c: 1452 },
+          { o: 1452, h: 1456, l: 1448, c: 1454 }
+        ]
+      }
+    };
+
+    function updateHeroChart(ticker) {
+      const data = assetMatrix[ticker];
+      
+      // Update HUD Values
+      document.getElementById("heroSignalBadge").textContent = data.signal;
+      document.getElementById("heroConfidence").textContent = data.confidence;
+      document.getElementById("heroMetricRsi").textContent = data.rsi;
+      document.getElementById("heroMetricMacd").textContent = data.macd;
+      document.getElementById("heroMetricAltman").textContent = data.altman;
+      document.getElementById("heroMetricVpin").textContent = data.vpin;
+      document.getElementById("heroAriaReasoning").textContent = `"${data.reason}"`;
+
+      // Signal color updates
+      const badge = document.getElementById("heroSignalBadge");
+      if (data.signal.includes("BUY")) {
+        badge.className = "px-2.5 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-lg text-[10px] font-mono font-bold tracking-wider";
+      } else if (data.signal.includes("SELL")) {
+        badge.className = "px-2.5 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded-lg text-[10px] font-mono font-bold tracking-wider";
+      } else {
+        badge.className = "px-2.5 py-1 bg-slate-500/10 text-slate-300 border border-slate-500/30 rounded-lg text-[10px] font-mono font-bold tracking-wider";
+      }
+
+      // Re-plot SVGs
+      plotVectorGraphics(data);
+    }
+
+    function plotVectorGraphics(data) {
+      const candleSvg = document.getElementById("heroCandleSvg");
+      const indicatorSvg = document.getElementById("heroIndicatorSvg");
+      
+      candleSvg.innerHTML = "";
+      indicatorSvg.innerHTML = "";
+
+      const barWidth = 80;
+      const spacing = 40;
+
+      // Fit prices within SVG bounds
+      const prices = data.pattern.flatMap(p => [p.h, p.l]);
+      const minPrice = Math.min(...prices) - 10;
+      const maxPrice = Math.max(...prices) + 10;
+      const range = maxPrice - minPrice;
+
+      const scaleY = (p) => 120 - ((p - minPrice) / range) * 100;
+
+      // Draw Candlesticks
+      data.pattern.forEach((bar, idx) => {
+        const x = idx * (barWidth + spacing) + 40;
+        const oY = scaleY(bar.o);
+        const cY = scaleY(bar.c);
+        const hY = scaleY(bar.h);
+        const lY = scaleY(bar.l);
+
+        const isUp = bar.c >= bar.o;
+        const color = isUp ? '#00f5d4' : '#ff0055';
+
+        // High/low wick
+        const wick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        wick.setAttribute("x1", x + barWidth / 2);
+        wick.setAttribute("y1", hY);
+        wick.setAttribute("x2", x + barWidth / 2);
+        wick.setAttribute("y2", lY);
+        wick.setAttribute("stroke", color);
+        wick.setAttribute("stroke-width", "1.5");
+
+        // Real body
+        const body = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        body.setAttribute("x", x);
+        body.setAttribute("y", Math.min(oY, cY));
+        body.setAttribute("width", barWidth);
+        body.setAttribute("height", Math.max(Math.abs(oY - cY), 3));
+        body.setAttribute("fill", color);
+        body.setAttribute("opacity", "0.85");
+
+        candleSvg.appendChild(wick);
+        candleSvg.appendChild(body);
+      });
+
+      // Draw standard line oscillators inside subpane
+      let linePath = "";
+      data.pattern.forEach((bar, idx) => {
+        const x = idx * (barWidth + spacing) + 40 + barWidth / 2;
+        // Generate values around RSI range
+        const yVal = parseFloat(data.rsi) + Math.sin(idx) * 15;
+        const y = 30 - (yVal / 100) * 20;
+        linePath += `${idx === 0 ? 'M' : 'L'} ${x} ${y}`;
+      });
+
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      line.setAttribute("d", linePath);
+      line.setAttribute("fill", "none");
+      line.setAttribute("stroke", "#7c3aed");
+      line.setAttribute("stroke-width", "1.5");
+      indicatorSvg.appendChild(line);
+    }
+
+    // 5. Interactive Chat Terminal Demo Controls
+    function triggerSandboxDemo(mode) {
+      const windowEl = document.getElementById("sandboxWindow");
+      const placeholder = document.getElementById("sandboxPromptPlaceholder");
+
+      placeholder.textContent = `Dispatching command: ARIA ${mode} RELIANCE.NS...`;
+
+      // Create outgoing human chat item
+      const promptBlock = document.createElement("div");
+      promptBlock.className = "flex flex-col space-y-1.5 max-w-[85%] ml-auto items-end";
+      promptBlock.innerHTML = `
+        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">YOU</span>
+        <div class="p-3.5 rounded-xl leading-relaxed bg-brand-cyan/5 border border-brand-cyan/20 text-brand-cyan">
+          Trigger operational process for ${mode} RELIANCE.NS
+        </div>
+      `;
+      windowEl.appendChild(promptBlock);
+      windowEl.scrollTop = windowEl.scrollHeight;
+
+      // Generate simulated response from system agent
+      setTimeout(() => {
+        const replyBlock = document.createElement("div");
+        replyBlock.className = "flex flex-col space-y-1.5 max-w-[85%] mr-auto items-start";
+        
+        let response = "";
+        if (mode === 'ANALYSE') {
+          response = `**[ARIA QUANT INTERCEPT ANALYSIS — RELIANCE.NS]**<br/><br/>
+            • **Momentum Indicator (RSI):** sits at 62.45, confirming consolidation inside standard bounds.<br/>
+            • **Volatility Channel (BB):** compression points indicate breakout setups are preparing.<br/>
+            • **Solvency Metric (Altman Z):** 4.23 confirms balance sheet is within safe operating margins.`;
+        } else if (mode === 'EXPLAIN') {
+          response = `**[ARIA DECISION METRICS — RELIANCE.NS]**<br/><br/>
+            The system returns an active **BUY** posture. Sector indices show net institutional capital accumulation patterns. Low option-chain volatility structures minimize short-term correction risks. Always protect risk bounds.`;
+        } else {
+          response = `Automating action payload. Copy this secure Python execution block to automate the setup:<br/><br/>
+            <pre class="p-4 bg-brand-darker border border-brand-border/60 rounded-xl text-amber-400 overflow-x-auto w-full select-all font-mono leading-relaxed"><code># Automated Order Dispatch\nimport requests\n\npayload = {\n  'symbol': 'RELIANCE.NS',\n  'action': 'BUY',\n  'entry': 2452.45,\n  'stop_loss': 2420.00\n}\nprint("Sending broker payload...")</code></pre>`;
+        }
+
+        replyBlock.innerHTML = `
+          <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">ARIA</span>
+          <div class="p-4 rounded-xl leading-relaxed bg-brand-panel/50 border border-brand-border/40 text-slate-300 w-full">
+            ${response}
+          </div>
+        `;
+        windowEl.appendChild(replyBlock);
+        windowEl.scrollTop = windowEl.scrollHeight;
+        placeholder.textContent = "Awaiting structural command prompts...";
+      }, 700);
+    }
+
+    // 6. Dynamic Monthly/Yearly Toggle Model
+    let yearlyModelActive = false;
+    function togglePricingModel() {
+      yearlyModelActive = !yearlyModelActive;
+      const knob = document.getElementById("pricingToggleKnob");
+      const labelMonthly = document.getElementById("labelMonthly");
+      const labelYearly = document.getElementById("labelYearly");
+      
+      const valPro = document.getElementById("priceValPro");
+      const valEnterprise = document.getElementById("priceValEnterprise");
+      const labelPro = document.getElementById("periodLabelPro");
+      const labelEnterprise = document.getElementById("periodLabelEnterprise");
+
+      if (yearlyModelActive) {
+        knob.style.transform = "translateX(24px)";
+        labelYearly.className = "text-brand-cyan";
+        labelMonthly.className = "text-slate-500";
+        valPro.textContent = "₹799";
+        valEnterprise.textContent = "₹1,999";
+        labelPro.textContent = "/MO (BILLED YEARLY)";
+        labelEnterprise.textContent = "/MO (BILLED YEARLY)";
+      } else {
+        knob.style.transform = "translateX(0px)";
+        labelMonthly.className = "text-brand-cyan";
+        labelYearly.className = "text-slate-500";
+        valPro.textContent = "₹999";
+        valEnterprise.textContent = "₹2,499";
+        labelPro.textContent = "/MO";
+        labelEnterprise.textContent = "/MO";
+      }
+    }
+
+    // 7. Privacy Agreement Modal Logic
+    const DOWNLOAD_URL = 'https://github.com/Devsharma431/Verity-land/releases/download/v1.2.0/VerityAI_1.2.0_x64_en-US.msi';
+    let pendingDownloadLabel = '';
+
+    function showAgreement(label) {
+      pendingDownloadLabel = label;
+      document.getElementById('agreementModal').classList.remove('hidden');
+      document.getElementById('agreementModal').classList.add('flex');
+      document.getElementById('agreeCheckbox').checked = false;
+      document.getElementById('agreeDownloadBtn').disabled = true;
+      document.getElementById('agreeDownloadBtn').className = 'flex-1 py-2.5 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-mono font-extrabold rounded-xl text-xs tracking-wider transition-all opacity-40 cursor-not-allowed';
+    }
+
+    function closeAgreement() {
+      document.getElementById('agreementModal').classList.add('hidden');
+      document.getElementById('agreementModal').classList.remove('flex');
+      pendingDownloadLabel = '';
+    }
+
+    // Enable agree button when checkbox is checked
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkbox = document.getElementById('agreeCheckbox');
+      const agreeBtn = document.getElementById('agreeDownloadBtn');
+      if (checkbox && agreeBtn) {
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            agreeBtn.disabled = false;
+            agreeBtn.className = 'flex-1 py-2.5 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-mono font-extrabold rounded-xl text-xs tracking-wider transition-all hover:brightness-110 cursor-pointer';
+          } else {
+            agreeBtn.disabled = true;
+            agreeBtn.className = 'flex-1 py-2.5 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-mono font-extrabold rounded-xl text-xs tracking-wider transition-all opacity-40 cursor-not-allowed';
+          }
+        });
+      }
+    });
+
+    function proceedDownload() {
+      if (!document.getElementById('agreeCheckbox').checked) return;
+      closeAgreement();
+      // Trigger the download
+      const a = document.createElement('a');
+      a.href = DOWNLOAD_URL;
+      a.download = 'VerityAI_1.2.0_x64_en-US.msi';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      // Show progress simulation
+      triggerSpecificDownloadSim(pendingDownloadLabel);
+    }
+
+    // Intercept all download links to show agreement first
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a[download]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const label = this.querySelector('span') ? this.querySelector('span').textContent.trim() : this.textContent.trim();
+          showAgreement(label || 'Windows MSI Build');
+        });
+      });
+    });
+
+    // Initialize scripts on load
+    renderTickerFeed();
+    identifyOS();
+    updateHeroChart("RELIANCE");
+    lucide.createIcons();
+  </script>
+</body>
+</html>

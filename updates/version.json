@@ -1,0 +1,11 @@
+{
+  "version": "1.2.0",
+  "notes": "Initial beta release",
+  "pub_date": "2026-07-03T12:00:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "",
+      "url": "https://github.com/Devsharma431/Verity-land/releases/download/v1.2.0/VerityAI_1.2.0_x64_en-US.msi"
+    }
+  }
+}
