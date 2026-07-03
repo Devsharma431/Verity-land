@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VerityAI — The Sovereign Quant Terminal for Indian Equities</title>
+  <link rel="icon" type="image/png" href="logooo.png">
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -101,6 +102,12 @@
     </div>
   </div>
 
+  <!-- BETA RELEASE NOTICE -->
+  <div class="bg-gradient-to-r from-brand-cyan/10 via-brand-purple/10 to-brand-cyan/10 border-b border-brand-cyan/20 py-2 px-4 text-center font-mono text-[10px] text-slate-400 tracking-wider">
+    <span class="text-brand-cyan font-bold">BETA RELEASE</span> — Verity AI v1.2.0 is now publicly available. <span class="text-slate-500">All features are free during the beta period. Report issues on</span>
+    <a href="https://github.com/Devsharma431/Verity-land/issues" class="text-brand-cyan underline hover:no-underline" target="_blank">GitHub</a>.
+  </div>
+
   <!-- NAVIGATION HEADER -->
   <nav class="sticky top-0 bg-brand-bg/60 backdrop-blur-xl border-b border-brand-border/30 z-40 px-6 py-4 transition-all">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
@@ -125,7 +132,7 @@
       <!-- Quick Action CTA -->
       <div class="flex items-center gap-4">
         <a href="#downloads" class="hidden sm:inline-flex px-4 py-2 border border-brand-border hover:border-brand-cyan/40 bg-brand-card hover:bg-brand-panel text-slate-100 font-mono text-[10px] tracking-wider rounded-lg transition-all">
-          GET LATEST BUILD
+          DOWNLOAD BETA
         </a>
         <a href="#sandbox" class="px-4 py-2 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker hover:brightness-110 font-bold rounded-lg text-xs tracking-wider transition-all shadow-md shadow-brand-cyan/10">
           LAUNCH PREVIEW
@@ -148,7 +155,7 @@
       <div class="lg:col-span-6 flex flex-col items-start gap-8 text-left">
         <div class="flex items-center gap-2 px-3 py-1 bg-brand-cyan/5 border border-brand-cyan/20 rounded-full text-[10px] font-mono text-brand-cyan font-bold tracking-widest">
           <span class="h-1.5 w-1.5 rounded-full bg-brand-cyan animate-ping"></span>
-          <span>TAURI DESKTOP ENGINE v2.0-BETA</span>
+          <span>🚀 BETA v1.2.0 — PUBLIC RELEASE</span>
         </div>
         
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-100 leading-[1.1]">
@@ -183,8 +190,8 @@
             <div class="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">Profit Factor</div>
           </div>
           <div>
-            <div class="text-2xl font-bold text-brand-cyan">311+</div>
-            <div class="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">NSE Equities</div>
+            <div class="text-2xl font-bold text-brand-cyan">50</div>
+            <div class="text-[9px] text-slate-500 font-bold uppercase mt-1 tracking-widest">NSE 50 Coverage</div>
           </div>
         </div>
       </div>
@@ -481,20 +488,11 @@
     
     <!-- Section Headers with Dynamic toggle -->
     <div class="text-center max-w-2xl mx-auto space-y-4">
-      <h2 class="text-[10px] font-mono font-bold tracking-[0.25em] text-brand-cyan uppercase">SUBSCRIPTION MATRIX</h2>
-      <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Select analytical bandwidth</h3>
+      <h2 class="text-[10px] font-mono font-bold tracking-[0.25em] text-brand-cyan uppercase">BETA ACCESS — EVERYTHING UNLOCKED</h2>
+      <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Free during public beta</h3>
       <p class="text-sm text-slate-400 leading-relaxed">
-        Unlock evaluation limits with our free tier, or scale structural ingestion with our high-frequency analytical integrations.
+        <span class="text-brand-cyan font-bold">All plans are FREE during the beta period.</span> No payment required. No locked features. Download and use the full Verity engine at zero cost until the official release.
       </p>
-
-      <!-- Custom Toggle Switched Container -->
-      <div class="flex items-center justify-center gap-4 pt-6 font-mono text-[11px] tracking-wider font-bold">
-        <span id="labelMonthly" class="text-brand-cyan">MONTHLY BASIS</span>
-        <button onclick="togglePricingModel()" class="w-12 h-6 bg-brand-cyan/15 border border-brand-cyan/35 rounded-full relative p-0.5 transition-all">
-          <div id="pricingToggleKnob" class="h-4.5 w-4.5 bg-brand-cyan rounded-full transition-all transform translate-x-0"></div>
-        </button>
-        <span id="labelYearly" class="text-slate-500">YEARLY BASICS (20% REDUCTION)</span>
-      </div>
     </div>
 
     <!-- Pricing Columns -->
@@ -504,9 +502,9 @@
       <div class="bg-brand-card/60 border border-brand-border/60 hover:border-slate-700 p-8 rounded-2xl flex flex-col justify-between gap-8 transition-all duration-300 relative">
         <div class="space-y-4">
           <div class="text-slate-100 font-bold text-base font-mono">Free Evaluation</div>
-          <div class="text-4xl font-extrabold text-slate-100">₹0</div>
+          <div class="text-4xl font-extrabold text-brand-cyan">FREE</div>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Perfect for evaluating technical structures and prediction accuracy across selected local symbols.
+            Everything unlocked during the beta. Evaluate the full 91-feature engine, real-time signals, and AI analysis at zero cost.
           </p>
           <ul class="space-y-3 text-[11px] font-semibold text-slate-400 border-t border-brand-border/40 pt-5">
             <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> 5 model queries per day</li>
@@ -515,23 +513,23 @@
           </ul>
         </div>
         <button onclick="showAgreement('Free Evaluation Build')" class="w-full py-3 bg-brand-panel hover:bg-slate-800/50 border border-brand-border font-mono font-bold rounded-xl text-xs transition-all">
-          GET EVAL BUILD
+          DOWNLOAD FREE BETA
         </button>
       </div>
 
       <!-- Pro Ingestion -->
       <div class="bg-brand-card border border-brand-cyan/40 p-8 rounded-2xl flex flex-col justify-between gap-8 transition-all duration-300 relative glow-cyan">
         <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-brand-cyan text-brand-darker rounded-full text-[9px] font-mono font-extrabold tracking-widest uppercase shadow">
-          POPULAR CONFIG
+          BEST VALUE — FREE
         </div>
         <div class="space-y-4">
           <div class="text-slate-100 font-bold text-base font-mono">Pro Trader</div>
           <div class="flex items-baseline gap-1 font-mono">
-            <span id="priceValPro" class="text-4xl font-extrabold text-slate-100">₹999</span>
-            <span id="periodLabelPro" class="text-[10px] text-slate-500 font-bold">/MO</span>
+            <span id="priceValPro" class="text-4xl font-extrabold text-brand-cyan">FREE</span>
+            <span id="periodLabelPro" class="text-[10px] text-slate-500 font-bold">BETA</span>
           </div>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Complete activation of our 91-feature machine learning model framework, options flows, and automated AI analysis.
+            Full 91-feature ML ensemble, FinBERT sentiment, options flow analytics, and automated AI analysis — all unlocked during beta.
           </p>
           <ul class="space-y-3 text-[11px] font-semibold text-slate-400 border-t border-brand-border/40 pt-5">
             <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> 91 feature computing pipeline</li>
@@ -541,7 +539,7 @@
           </ul>
         </div>
         <button onclick="showAgreement('Pro Trader License')" class="glow-cyan w-full py-3.5 bg-gradient-to-r from-brand-cyan to-teal-400 text-brand-darker font-mono font-extrabold rounded-xl text-xs transition-all tracking-wider">
-          UPGRADE CLIENT
+          DOWNLOAD FREE BETA
         </button>
       </div>
 
@@ -550,11 +548,11 @@
         <div class="space-y-4">
           <div class="text-slate-100 font-bold text-base font-mono">Enterprise Quant</div>
           <div class="flex items-baseline gap-1 font-mono">
-            <span id="priceValEnterprise" class="text-4xl font-extrabold text-slate-100">₹2,499</span>
-            <span id="periodLabelEnterprise" class="text-[10px] text-slate-500 font-bold">/MO</span>
+            <span id="priceValEnterprise" class="text-4xl font-extrabold text-brand-cyan">FREE</span>
+            <span id="periodLabelEnterprise" class="text-[10px] text-slate-500 font-bold">BETA</span>
           </div>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Enterprise programmatic architecture, sub-second webhook pipelines, multi-broker authorization systems, and raw REST access.
+            Enterprise programmatic architecture, sub-second webhook pipelines, multi-broker auth, raw REST access — included at no cost during beta.
           </p>
           <ul class="space-y-3 text-[11px] font-semibold text-slate-400 border-t border-brand-border/40 pt-5">
             <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-cyan"></i> All analytical scopes in Pro</li>
@@ -564,7 +562,7 @@
           </ul>
         </div>
         <button onclick="showAgreement('Enterprise Quant Package')" class="w-full py-3 bg-brand-panel hover:bg-slate-800/50 border border-brand-border font-mono font-bold rounded-xl text-xs transition-all">
-          CONTACT ENGINE
+          DOWNLOAD FREE BETA
         </button>
       </div>
 
